@@ -1,87 +1,56 @@
-# Text adventure game
-import time
+import random
+import string
 
+def generate_password(length, use_letters=True, use_numbers=True, use_symbols=True):
+    characters = ""
+    if use_letters:
+        characters += string.ascii_letters
+    if use_numbers:
+        characters += string.digits
+    if use_symbols:
+        characters += string.punctuation
 
-def introduction():
-    print("Welcome to the Text Adventure Game!")
-    time.sleep(1)
-    print("You find yourself standing at a crossroads.")
-    time.sleep(1)
-    print("You can go left, right, or straight ahead.")
+    if not characters:
+        print("Error: Please select at least one type of character (letters, numbers, or symbols).")
+        return None
 
+    password = ''.join(random.choice(characters) for _ in range(length))
+    return password
 
-def make_choice():
-    while True:
-        choice = input("Enter your choice (left/right/straight): ").lower()
-        if choice in ["left", "right", "straight"]:
-            return choice
-        else:
-            print("Invalid choice. Please enter 'left', 'right', or 'straight'.")
+def check_password_strength(password):
+    # Add your own criteria for password strength here
+    # For example, you can check for minimum length, the presence of uppercase/lowercase letters, etc.
+    return len(password) >= 8
 
+def main():
+    print("Password Generator")
 
-def left_path():
-    print("You chose to go left.")
-    time.sleep(1)
-    print("You encounter a friendly merchant.")
-    time.sleep(1)
-    print("The merchant offers you a magical potion.")
-    potion_choice = input("Do you want to buy the potion? (yes/no): ").lower()
+    try:
+        num_passwords = int(input("Enter the number of passwords to generate: "))
+        length = int(input("Enter the desired length of the password: "))
+        use_letters = input("Include letters? (yes/no): ").lower() == 'yes'
+        use_numbers = input("Include numbers? (yes/no): ").lower() == 'yes'
+        use_symbols = input("Include symbols? (yes/no): ").lower() == 'yes'
 
-    if potion_choice == "yes":
-        print("You purchase the potion and continue on your journey.")
-    else:
-        print("You thank the merchant and continue on your journey without the potion.")
+        passwords = []
 
+        for _ in range(num_passwords):
+            password = generate_password(length, use_letters, use_numbers, use_symbols)
 
-def right_path():
-    print("You chose to go right.")
-    time.sleep(1)
-    print("You come across a dark cave entrance.")
-    time.sleep(1)
-    print("A mysterious voice echoes, 'Enter at your own risk.'")
+            if password:
+                print(f"Generated Password: {password}")
+                if check_password_strength(password):
+                    print("Password Strength: Strong")
+                else:
+                    print("Password Strength: Weak (Consider increasing length or including more character types)")
+                passwords.append(password)
 
-    cave_choice = input("Do you want to enter the cave? (yes/no): ").lower()
+        print("\nGenerated Passwords:")
+        for i, password in enumerate(passwords, 1):
+            print(f"{i}. {password}")
 
-    if cave_choice == "yes":
-        print("You enter the cave and find a hidden treasure!")
-    else:
-        print("You decide not to enter the cave and continue exploring the area.")
-
-
-def straight_path():
-    print("You chose to go straight ahead.")
-    time.sleep(1)
-    print("You find a bridge guarded by a troll.")
-    time.sleep(1)
-    print("The troll demands a toll for crossing the bridge.")
-
-    toll_choice = input("Do you want to pay the toll? (yes/no): ").lower()
-
-    if toll_choice == "yes":
-        print("You pay the toll and safely cross the bridge.")
-    else:
-        print("You decide not to pay the toll and find another way to cross the bridge.")
-
-
-def play_game():
-    introduction()
-
-    while True:
-        choice = make_choice()
-
-        if choice == "left":
-            left_path()
-        elif choice == "right":
-            right_path()
-        elif choice == "straight":
-            straight_path()
-
-        play_again = input("Do you want to play again? (yes/no): ").lower()
-        if play_again != "yes":
-            print("Thanks for playing! Goodbye.")
-            break
-
+    except ValueError:
+        print("Error: Please enter valid inputs.")
 
 if __name__ == "__main__":
-    play_game()
-
+    main()
