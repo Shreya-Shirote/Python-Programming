@@ -1,0 +1,87 @@
+# Text adventure game
+import time
+
+
+def introduction():
+    print("Welcome to the Text Adventure Game!")
+    time.sleep(1)
+    print("You find yourself standing at a crossroads.")
+    time.sleep(1)
+    print("You can go left, right, or straight ahead.")
+
+
+def make_choice():
+    while True:
+        choice = input("Enter your choice (left/right/straight): ").lower()
+        if choice in ["left", "right", "straight"]:
+            return choice
+        else:
+            print("Invalid choice. Please enter 'left', 'right', or 'straight'.")
+
+
+def left_path():
+    print("You chose to go left.")
+    time.sleep(1)
+    print("You encounter a friendly merchant.")
+    time.sleep(1)
+    print("The merchant offers you a magical potion.")
+    potion_choice = input("Do you want to buy the potion? (yes/no): ").lower()
+
+    if potion_choice == "yes":
+        print("You purchase the potion and continue on your journey.")
+    else:
+        print("You thank the merchant and continue on your journey without the potion.")
+
+
+def right_path():
+    print("You chose to go right.")
+    time.sleep(1)
+    print("You come across a dark cave entrance.")
+    time.sleep(1)
+    print("A mysterious voice echoes, 'Enter at your own risk.'")
+
+    cave_choice = input("Do you want to enter the cave? (yes/no): ").lower()
+
+    if cave_choice == "yes":
+        print("You enter the cave and find a hidden treasure!")
+    else:
+        print("You decide not to enter the cave and continue exploring the area.")
+
+
+def straight_path():
+    print("You chose to go straight ahead.")
+    time.sleep(1)
+    print("You find a bridge guarded by a troll.")
+    time.sleep(1)
+    print("The troll demands a toll for crossing the bridge.")
+
+    toll_choice = input("Do you want to pay the toll? (yes/no): ").lower()
+
+    if toll_choice == "yes":
+        print("You pay the toll and safely cross the bridge.")
+    else:
+        print("You decide not to pay the toll and find another way to cross the bridge.")
+
+
+def play_game():
+    introduction()
+
+    while True:
+        choice = make_choice()
+
+        if choice == "left":
+            left_path()
+        elif choice == "right":
+            right_path()
+        elif choice == "straight":
+            straight_path()
+
+        play_again = input("Do you want to play again? (yes/no): ").lower()
+        if play_again != "yes":
+            print("Thanks for playing! Goodbye.")
+            break
+
+
+if __name__ == "__main__":
+    play_game()
+
