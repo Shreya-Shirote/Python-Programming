@@ -1,43 +1,31 @@
 
-import requests
-from bs4 import BeautifulSoup
-from fake_useragent import UserAgent
-import time
+import matplotlib.pyplot as plt
+import numpy as np
 
+# Generating sample data
+categories = ['Category A', 'Category B', 'Category C', 'Category D']
+values1 = np.array([30, 45, 25, 50])
+values2 = np.array([20, 35, 40, 30])
 
-class WebScraper:
-    def __init__(self):
-        self.session = requests.Session()
-        self.headers = {'User-Agent': UserAgent().random}
+# Bar Chart
+plt.figure(figsize=(8, 5))
+plt.bar(categories, values1, label='Data Set 1', color='blue', alpha=0.7)
+plt.bar(categories, values2, label='Data Set 2', color='orange', alpha=0.7, bottom=values1)
 
-    def fetch_html(self, url):
-        try:
-            response = self.session.get(url, headers=self.headers)
-            response.raise_for_status()
-            return response.text
-        except requests.exceptions.RequestException as e:
-            print(f"Error fetching HTML: {e}")
-            return None
+plt.xlabel('Categories')
+plt.ylabel('Values')
+plt.title('Bar Chart - Comparison of Data Sets')
+plt.legend()
+plt.show()
 
-    def scrape_headlines(self, url):
-        html_content = self.fetch_html(url)
-        if html_content:
-            soup = BeautifulSoup(html_content, 'html.parser')
+# Line Graph
+plt.figure(figsize=(8, 5))
+plt.plot(categories, values1, marker='o', label='Data Set 1', color='blue')
+plt.plot(categories, values2, marker='s', label='Data Set 2', color='orange')
 
-            # Print the entire HTML content for inspection
-            print(soup.prettify())
-
-            # Update class based on the actual HTML structure
-            headlines = soup.find_all('h2', class_='highlight')  # Update class based on actual HTML structure
-
-            for index, headline in enumerate(headlines, 1):
-                print(f"{index}. {headline.text.strip()}")
-
-
-if __name__ == "__main__":
-    scraper = WebScraper()
-    news_url = 'https://timesofindia.indiatimes.com/news'  # Replace with actual URL
-
-    print("\nNews Headlines:")
-    scraper.scrape_headlines(news_url)
-
+plt.xlabel('Categories')
+plt.ylabel('Values')
+plt.title('Line Graph - Comparison of Data Sets')
+plt.legend()
+plt.grid(True)
+plt.show()
